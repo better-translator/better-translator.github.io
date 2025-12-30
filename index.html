@@ -3,381 +3,498 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TranslateAI - Redefining Your iOS Translation Experience</title>
+    <title>TranslateAI - The Ultimate iOS Translation Experience</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- 稳定的 Lucide 图标源 -->
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
+        :root {
+            --primary: #3b82f6;
+            --accent: #2563eb;
+            --bg: #ffffff;
+            --text-main: #000000;
+            --text-muted: #666666;
+        }
+
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: #000000;
-            color: #ffffff;
+            background-color: var(--bg);
+            color: var(--text-main);
             scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* 增加网格背景质感 */
+        .bg-grid {
+            background-size: 40px 40px;
+            background-image: radial-gradient(circle, #f0f0f0 1.2px, transparent 1.2px);
+        }
+
+        /* 噪点纹理增加高级感 */
+        .bg-noise {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            content: "";
+            opacity: 0.02;
+            z-index: 9999;
+            pointer-events: none;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3%3Ffilter id='noiseFilter'%3E%3FfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3F/filter%3E%3Frect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3F/svg%3E");
         }
 
         .glass-nav {
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: saturate(180%) blur(20px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
         }
 
-        .feature-card {
-            background: #0a0a0a;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            opacity: 0;
-            transform: translateY(30px);
+        .gradient-text {
+            background: linear-gradient(180deg, #000000 0%, #444444 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            padding-bottom: 0.15em;
         }
 
-        .feature-card:hover {
-            border-color: rgba(59, 130, 246, 0.3);
-            background: #111111;
+        .btn-primary-dark {
+            background: #000000;
+            color: #ffffff;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        }
+        .btn-primary-dark:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 便当盒卡片 */
+        .bento-card {
+            background: #ffffff;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            border-radius: 40px;
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        .bento-card:hover {
+            border-color: rgba(59, 130, 246, 0.2);
+            box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.05);
             transform: translateY(-8px);
         }
 
-        .roadmap-card {
-            background: linear-gradient(145deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0) 100%);
-            border: 1px dashed rgba(255, 255, 255, 0.15);
-            transition: all 0.4s ease;
+        /* 跑马灯动画 */
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .marquee-container {
+            overflow: hidden;
+            white-space: nowrap;
+            position: relative;
+            mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+        }
+        .marquee-content {
+            display: inline-block;
+            animation: marquee 60s linear infinite;
+        }
+        .marquee-item {
+            display: inline-block;
+            padding: 0 2.5rem;
+            font-weight: 800;
+            font-size: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            opacity: 0.3; /* 提高不透明度 */
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        .marquee-item:hover {
+            opacity: 0.8;
+            transform: scale(1.1);
         }
 
-        .roadmap-card:hover {
-            border-style: solid;
-            border-color: rgba(96, 165, 250, 0.3);
-            background: rgba(255, 255, 255, 0.03);
+        /* Hero 气泡动画 */
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0); }
+            50% { transform: translateY(-15px) rotate(1deg); }
         }
+        .float-anim { animation: float 6s ease-in-out infinite; }
+        .float-anim-delayed { animation: float 7s ease-in-out infinite 1s; }
 
-        /* 增强图标的发光感 */
-        .icon-glow-blue { filter: drop-shadow(0 0 8px rgba(96, 165, 250, 0.4)); }
-        .icon-glow-purple { filter: drop-shadow(0 0 8px rgba(192, 132, 252, 0.4)); }
-        .icon-glow-emerald { filter: drop-shadow(0 0 8px rgba(52, 211, 153, 0.4)); }
-        .icon-glow-orange { filter: drop-shadow(0 0 8px rgba(251, 146, 60, 0.4)); }
-        .icon-glow-rose { filter: drop-shadow(0 0 8px rgba(251, 113, 133, 0.4)); }
-
-        .gradient-text {
-            background: linear-gradient(to right, #ffffff, #a1a1a1);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .btn-primary {
-            background: #ffffff;
-            color: #000000;
-            transition: all 0.3s ease;
+        .ui-bubble {
+            background: white;
+            padding: 12px 20px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.04);
+            border: 1px solid rgba(0,0,0,0.02);
+            font-size: 14px;
+            font-weight: 600;
             display: inline-flex;
             align-items: center;
-            justify-content: center;
-        }
-
-        .btn-primary:hover {
-            background: #e5e5e5;
-            transform: scale(1.05);
-        }
-
-        /* iPhone Mockup Frame */
-        .iphone-frame {
-            border: 10px solid #1a1a1a;
-            border-radius: 3rem;
-            box-shadow: 0 0 80px rgba(59, 130, 246, 0.1);
-            position: relative;
-            background: #000;
-        }
-
-        .iphone-notch {
-            position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 40%;
-            height: 25px;
-            background: #1a1a1a;
-            border-bottom-left-radius: 15px;
-            border-bottom-right-radius: 15px;
-            z-index: 20;
-        }
-
-        /* Background Glow Decor */
-        .bg-glow {
-            position: absolute;
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, rgba(59, 130, 246, 0.08) 0%, transparent 70%);
-            z-index: -1;
-            filter: blur(80px);
-        }
-
-        a {
-            text-decoration: none;
-            color: inherit;
+            gap: 10px;
+            white-space: nowrap;
         }
     </style>
 </head>
-<body class="antialiased">
+<body class="antialiased bg-grid">
+    <div class="bg-noise"></div>
 
-    <!-- Navigation -->
-    <nav class="fixed w-full z-50 glass-nav top-0">
+    <!-- 导航栏 (Navigation) -->
+    <nav class="fixed w-full z-50 glass-nav">
         <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-            <div class="flex items-center space-x-2">
-                <i data-lucide="languages" class="text-blue-400 w-7 h-7 icon-glow-blue"></i>
-                <span class="text-xl font-bold tracking-tight">Translate<span class="text-blue-400">AI</span></span>
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/20">
+                    <i data-lucide="languages" class="text-white w-6 h-6"></i>
+                </div>
+                <span class="text-xl font-extrabold tracking-tighter">Translate<span class="text-blue-600">AI</span></span>
             </div>
-            <div class="hidden md:flex space-x-10 text-[13px] font-medium tracking-wide text-gray-400">
-                <a href="#features" class="hover:text-white transition-colors uppercase tracking-widest">Features</a>
-                <a href="#roadmap" class="hover:text-white transition-colors uppercase tracking-widest">Roadmap</a>
-                <a href="#tech" class="hover:text-white transition-colors uppercase tracking-widest">Privacy</a>
+            <div class="hidden md:flex gap-10 text-[11px] font-extrabold uppercase tracking-[0.2em] text-gray-400">
+                <a href="#features" class="hover:text-black transition-colors">Capabilities</a>
+                <a href="#roadmap" class="hover:text-black transition-colors">Future</a>
+                <a href="#tech" class="hover:text-black transition-colors">Privacy</a>
             </div>
-            <div class="flex items-center">
-                <a href="https://apps.apple.com/us/app/chatai-ai-chat-assistant/id6449479659" target="_blank" class="btn-primary px-6 py-2 rounded-full text-sm font-bold shadow-lg shadow-white/5">
-                    Get the App
-                </a>
-            </div>
+            <a href="https://apps.apple.com/us/app/chatai-ai-chat-assistant/id6449479659" target="_blank" class="btn-primary-dark px-6 py-2.5 rounded-full text-xs font-black uppercase tracking-widest">
+                Download
+            </a>
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <section class="relative pt-32 lg:pt-48 pb-20 px-6 overflow-hidden">
-        <div class="bg-glow -top-20 -right-20"></div>
-        <div class="bg-glow bottom-20 -left-20"></div>
-        
-        <div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
-            <div class="text-left">
-                <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 mb-6 shadow-inner">
-                    <span class="text-[11px] font-bold tracking-widest uppercase text-blue-400">Exclusively for iOS</span>
+    <!-- 英雄板块 (Hero Section) -->
+    <section class="relative pt-48 pb-20 px-6 overflow-hidden">
+        <div class="max-w-7xl mx-auto text-center relative">
+            <!-- 视觉填充：对话气泡 -->
+            <div class="absolute inset-0 pointer-events-none hidden xl:block">
+                <div class="ui-bubble float-anim absolute top-0 left-[5%] text-blue-600 border-blue-50">
+                    <i data-lucide="message-square" class="w-4 h-4"></i>
+                    Bonjour, mon ami!
                 </div>
-                <h1 class="text-6xl md:text-7xl font-bold mb-8 leading-[1.1] tracking-tight">
-                    Beyond Borders,<br><span class="gradient-text">Beyond Limits.</span>
-                </h1>
-                <p class="text-gray-400 text-lg md:text-xl max-w-xl mb-12 leading-relaxed">
-                    TranslateAI is meticulously crafted for the Apple ecosystem. Experience fluid, near-native translations for travel, business, and daily life powered by next-gen neural engines.
-                </p>
-                <div class="flex flex-wrap gap-4">
-                    <a href="https://apps.apple.com/us/app/chatai-ai-chat-assistant/id6449479659" target="_blank" class="flex items-center space-x-3 bg-white text-black px-10 py-4 rounded-2xl hover:bg-gray-200 transition-all group shadow-2xl">
-                        <i data-lucide="apple" class="w-7 h-7 fill-current"></i>
-                        <div class="text-left">
-                            <p class="text-[10px] uppercase font-bold leading-none">Download on the</p>
-                            <p class="text-2xl font-bold leading-none mt-1">App Store</p>
-                        </div>
-                    </a>
+                <div class="ui-bubble float-anim-delayed absolute top-12 right-[8%] text-gray-800">
+                    Hello, my friend!
+                    <i data-lucide="check-circle-2" class="w-4 h-4 text-green-500"></i>
                 </div>
-                <p class="mt-8 text-sm text-gray-400 flex items-center gap-2">
-                    <i data-lucide="heart" class="w-4 h-4 text-red-400 fill-current"></i>
-                    Minimalist Design · Absolute Precision · Instant Response
-                </p>
+                <div class="ui-bubble float-anim absolute bottom-32 left-[12%] text-purple-600 border-purple-50">
+                    <i data-lucide="camera" class="w-4 h-4"></i>
+                    Translating Menu...
+                </div>
+                <div class="ui-bubble float-anim-delayed absolute bottom-20 right-[10%] text-orange-600 border-orange-50">
+                    <i data-lucide="mic" class="w-4 h-4"></i>
+                    Live Interpreting
+                </div>
             </div>
 
-            <div class="relative flex justify-center lg:justify-end">
-                <!-- Phone Mockup -->
-                <div class="iphone-frame w-[300px] h-[600px] overflow-hidden">
-                    <div class="iphone-notch"></div>
-                    <div class="p-6 pt-12">
-                        <div class="space-y-4">
-                            <div class="h-8 w-24 bg-blue-400/20 rounded-full"></div>
-                            <div class="p-4 rounded-2xl bg-white/10 border border-white/10">
-                                <p class="text-[10px] text-gray-400 mb-1 uppercase tracking-wider">Original</p>
-                                <p class="text-sm">Breaking the language barriers with AI.</p>
-                            </div>
-                            <div class="p-4 rounded-2xl bg-blue-600 shadow-lg shadow-blue-900/20">
-                                <p class="text-[10px] text-blue-100 mb-1 uppercase tracking-wider">Translated</p>
-                                <p class="text-sm font-semibold">Utilizing AI to break down language barriers.</p>
-                            </div>
-                            <div class="grid grid-cols-2 gap-3 mt-12">
-                                <div class="aspect-square rounded-2xl bg-white/5 border border-white/10 flex flex-col items-center justify-center">
-                                    <i data-lucide="type" class="w-6 h-6 text-white mb-2"></i>
-                                    <span class="text-[10px] font-bold">Text</span>
-                                </div>
-                                <div class="aspect-square rounded-2xl bg-white/5 border border-white/10 flex flex-col items-center justify-center">
-                                    <i data-lucide="camera" class="w-6 h-6 text-white mb-2"></i>
-                                    <span class="text-[10px] font-bold">Photo</span>
-                                </div>
-                                <div class="aspect-square rounded-2xl bg-white/5 border border-white/10 flex flex-col items-center justify-center">
-                                    <i data-lucide="mic" class="w-6 h-6 text-white mb-2"></i>
-                                    <span class="text-[10px] font-bold">Voice</span>
-                                </div>
-                                <div class="aspect-square rounded-2xl bg-white/10 border border-blue-400/30 flex flex-col items-center justify-center">
-                                    <i data-lucide="globe" class="w-6 h-6 text-blue-400 mb-2 icon-glow-blue"></i>
-                                    <span class="text-[10px] font-bold text-blue-400">Live</span>
-                                </div>
-                            </div>
-                        </div>
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 border border-blue-100 mb-10 shadow-sm">
+                <span class="text-[11px] font-bold tracking-widest uppercase text-blue-600">Purely Built for iOS</span>
+            </div>
+            
+            <h1 class="text-6xl md:text-8xl font-extrabold mb-10 tracking-tighter gradient-text leading-[1.2]">
+                Break every<br>language barrier.
+            </h1>
+            <p class="text-gray-500 text-lg md:text-2xl max-w-3xl mx-auto mb-16 font-medium leading-relaxed">
+                Unlock the world with the most sophisticated AI translation engine. Designed with elegance, privacy, and speed in mind.
+            </p>
+            
+            <div class="flex flex-col sm:flex-row justify-center items-center gap-6 mb-24">
+                <a href="https://apps.apple.com/us/app/chatai-ai-chat-assistant/id6449479659" target="_blank" class="btn-primary-dark px-14 py-6 rounded-[32px] text-center">
+                    <p class="text-[10px] uppercase font-black tracking-widest opacity-60 mb-1">App Store</p>
+                    <p class="text-2xl font-black leading-none">Free Download</p>
+                </a>
+                <div class="hidden sm:block w-px h-16 bg-gray-100"></div>
+                <div class="flex flex-col items-center sm:items-start text-left">
+                    <div class="flex gap-1 mb-2">
+                        <i data-lucide="star" class="w-4 h-4 text-yellow-400 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 text-yellow-400 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 text-yellow-400 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 text-yellow-400 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 text-yellow-400 fill-current"></i>
                     </div>
+                    <p class="text-xs font-bold text-gray-400 uppercase tracking-widest">Global Top Rated App</p>
+                </div>
+            </div>
+
+            <!-- 数据展示 (Stats) -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-5xl mx-auto py-10 border-y border-gray-100 bg-white/40 backdrop-blur-sm rounded-3xl">
+                <div>
+                    <p class="text-4xl font-extrabold text-blue-600 mb-1">120+</p>
+                    <p class="text-[10px] uppercase font-bold tracking-widest text-gray-400">Languages</p>
+                </div>
+                <div>
+                    <p class="text-4xl font-extrabold text-gray-900 mb-1">0.1s</p>
+                    <p class="text-[10px] uppercase font-bold tracking-widest text-gray-400">Response</p>
+                </div>
+                <div>
+                    <p class="text-4xl font-extrabold text-gray-900 mb-1">99%</p>
+                    <p class="text-[10px] uppercase font-bold tracking-widest text-gray-400">Precision</p>
+                </div>
+                <div>
+                    <p class="text-4xl font-extrabold text-gray-900 mb-1">E2E</p>
+                    <p class="text-[10px] uppercase font-bold tracking-widest text-gray-400">Privacy</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Core Features -->
+    <!-- 彩色跑马灯 (Colorful Language Marquee) -->
+    <div class="marquee-container py-14">
+        <div class="marquee-content">
+            <span class="marquee-item text-blue-600">English</span>
+            <span class="marquee-item text-red-500">Español</span>
+            <span class="marquee-item text-indigo-500">Français</span>
+            <span class="marquee-item text-rose-500">日本語</span>
+            <span class="marquee-item text-amber-500">Deutsch</span>
+            <span class="marquee-item text-emerald-600">中文</span>
+            <span class="marquee-item text-cyan-600">Italiano</span>
+            <span class="marquee-item text-violet-600">Русский</span>
+            <span class="marquee-item text-teal-600">Português</span>
+            <span class="marquee-item text-pink-500">한국어</span>
+            <span class="marquee-item text-orange-600">Nederlands</span>
+            <span class="marquee-item text-sky-600">Svenska</span>
+            <!-- 重复一份实现滚动 -->
+            <span class="marquee-item text-blue-600">English</span>
+            <span class="marquee-item text-red-500">Español</span>
+            <span class="marquee-item text-indigo-500">Français</span>
+            <span class="marquee-item text-rose-500">日本語</span>
+            <span class="marquee-item text-amber-500">Deutsch</span>
+            <span class="marquee-item text-emerald-600">中文</span>
+            <span class="marquee-item text-cyan-600">Italiano</span>
+            <span class="marquee-item text-violet-600">Русский</span>
+            <span class="marquee-item text-teal-600">Português</span>
+            <span class="marquee-item text-pink-500">한국어</span>
+            <span class="marquee-item text-orange-600">Nederlands</span>
+            <span class="marquee-item text-sky-600">Svenska</span>
+        </div>
+    </div>
+
+    <!-- 核心功能 (Capabilities) -->
     <section id="features" class="py-32 px-6">
         <div class="max-w-7xl mx-auto">
-            <div class="text-center mb-24">
-                <h2 class="text-4xl md:text-5xl font-bold mb-6 italic">More than a Dictionary.</h2>
-                <p class="text-gray-500 text-lg max-w-2xl mx-auto">TranslateAI focuses on context awareness. Our models don't just translate words; they understand your intent.</p>
+            <div class="mb-20">
+                <h2 class="text-5xl md:text-7xl font-extrabold tracking-tighter mb-6 italic text-gray-900">Capabilities.</h2>
+                <p class="text-gray-400 text-xl font-medium max-w-2xl leading-relaxed">Simple, yet profound. Everything you need to bridge any gap.</p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <!-- Text & Voice -->
-                <div class="feature-card p-12 rounded-[40px] relative overflow-hidden group">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                <div class="bento-card p-12 group">
                     <div class="relative z-10">
-                        <div class="mb-8 w-14 h-14 bg-blue-400/10 rounded-2xl flex items-center justify-center">
-                            <i data-lucide="message-square" class="w-8 h-8 text-blue-400 icon-glow-blue"></i>
+                        <div class="mb-10 w-16 h-16 bg-blue-50 rounded-2xl flex items-center justify-center border border-blue-100/50">
+                            <i data-lucide="message-square" class="w-8 h-8 text-blue-600"></i>
                         </div>
-                        <h3 class="text-3xl font-bold mb-4">Text & Voice</h3>
-                        <p class="text-gray-400 max-w-xs mb-8">Support for over 120 languages. Integrated with neural speech synthesis for natural-sounding audio output.</p>
+                        <h3 class="text-4xl font-extrabold mb-6 tracking-tight text-gray-900">Text & Voice</h3>
+                        <p class="text-gray-500 text-lg leading-relaxed">
+                            Beyond literal translation. Our engine captures emotion and intent, making every conversation feel natural and accurate.
+                        </p>
                     </div>
-                    <div class="absolute -right-10 -bottom-10 w-64 h-64 bg-blue-400/5 blur-[60px] rounded-full"></div>
+                    <div class="absolute -right-20 -bottom-20 opacity-[0.02] group-hover:opacity-[0.06] transition-all duration-700 group-hover:scale-110">
+                        <i data-lucide="languages" class="w-80 h-80 text-black"></i>
+                    </div>
                 </div>
 
-                <!-- Photo -->
-                <div class="feature-card p-12 rounded-[40px] relative overflow-hidden group">
+                <div class="bento-card p-12 group">
                     <div class="relative z-10">
-                        <div class="mb-8 w-14 h-14 bg-purple-400/10 rounded-2xl flex items-center justify-center">
-                            <i data-lucide="scan-eye" class="w-8 h-8 text-purple-400 icon-glow-purple"></i>
+                        <div class="mb-10 w-16 h-16 bg-purple-50 rounded-2xl flex items-center justify-center border border-purple-100/50">
+                            <i data-lucide="camera" class="w-8 h-8 text-purple-600"></i>
                         </div>
-                        <h3 class="text-3xl font-bold mb-4">Instant Camera</h3>
-                        <p class="text-gray-400 max-w-xs mb-8">Advanced OCR engine recognizes text even in complex backgrounds and replaces it instantly in the frame.</p>
+                        <h3 class="text-4xl font-extrabold mb-6 tracking-tight text-gray-900">AR Camera</h3>
+                        <p class="text-gray-500 text-lg leading-relaxed">
+                            See the world in your language. Instant visual translation for signage, menus, and more through real-time augmented reality.
+                        </p>
                     </div>
-                    <div class="absolute -right-10 -bottom-10 w-64 h-64 bg-purple-400/5 blur-[60px] rounded-full"></div>
+                    <div class="absolute -right-20 -bottom-20 opacity-[0.02] group-hover:opacity-[0.06] transition-all duration-700 group-hover:scale-110">
+                        <i data-lucide="eye" class="w-80 h-80 text-black"></i>
+                    </div>
                 </div>
 
-                <!-- File -->
-                <div class="feature-card p-12 rounded-[40px] relative overflow-hidden group">
+                <div class="bento-card p-12 group">
                     <div class="relative z-10">
-                        <div class="mb-8 w-14 h-14 bg-emerald-400/10 rounded-2xl flex items-center justify-center">
-                            <i data-lucide="files" class="w-8 h-8 text-emerald-400 icon-glow-emerald"></i>
+                        <div class="mb-10 w-16 h-16 bg-emerald-50 rounded-2xl flex items-center justify-center border border-emerald-100/50">
+                            <i data-lucide="file-text" class="w-8 h-8 text-emerald-600"></i>
                         </div>
-                        <h3 class="text-3xl font-bold mb-4">File Conversion</h3>
-                        <p class="text-gray-400 max-w-xs mb-8">Upload PDFs or Word docs. Generate bilingual documents while preserving original formatting for professional use.</p>
+                        <h3 class="text-4xl font-extrabold mb-6 tracking-tight text-gray-900">Pro Documents</h3>
+                        <p class="text-gray-500 text-lg leading-relaxed">
+                            Maintain the perfect layout. Translate PDF, Word, and Excel files while preserving original formatting for professional use.
+                        </p>
                     </div>
-                    <div class="absolute -right-10 -bottom-10 w-64 h-64 bg-emerald-400/5 blur-[60px] rounded-full"></div>
+                    <div class="absolute -right-20 -bottom-20 opacity-[0.02] group-hover:opacity-[0.06] transition-all duration-700 group-hover:scale-110">
+                        <i data-lucide="clipboard-list" class="w-80 h-80 text-black"></i>
+                    </div>
                 </div>
 
-                <!-- Conversation -->
-                <div class="feature-card p-12 rounded-[40px] relative overflow-hidden group">
+                <div class="bento-card p-12 group">
                     <div class="relative z-10">
-                        <div class="mb-8 w-14 h-14 bg-orange-400/10 rounded-2xl flex items-center justify-center">
-                            <i data-lucide="users" class="w-8 h-8 text-orange-400 icon-glow-orange"></i>
+                        <div class="mb-10 w-16 h-16 bg-orange-50 rounded-2xl flex items-center justify-center border border-orange-100/50">
+                            <i data-lucide="mic" class="w-8 h-8 text-orange-600"></i>
                         </div>
-                        <h3 class="text-3xl font-bold mb-4">Face-to-Face Mode</h3>
-                        <p class="text-gray-400 max-w-xs mb-8">Innovative split-screen design automatically detects speakers for a seamless, natural conversation flow.</p>
+                        <h3 class="text-4xl font-extrabold mb-6 tracking-tight text-gray-900">Live Sessions</h3>
+                        <p class="text-gray-500 text-lg leading-relaxed">
+                            Simultaneous interpretation. Speak freely and let TranslateAI be your silent, expert partner in every global meeting.
+                        </p>
                     </div>
-                    <div class="absolute -right-10 -bottom-10 w-64 h-64 bg-orange-400/5 blur-[60px] rounded-full"></div>
+                    <div class="absolute -right-20 -bottom-20 opacity-[0.02] group-hover:opacity-[0.06] transition-all duration-700 group-hover:scale-110">
+                        <i data-lucide="zap" class="w-80 h-80 text-black"></i>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Roadmap Section -->
-    <section id="roadmap" class="py-32 px-6 bg-black/40">
+    <!-- 路线图 (Roadmap) -->
+    <section id="roadmap" class="py-32 px-6">
         <div class="max-w-7xl mx-auto">
-            <div class="mb-16">
-                <span class="text-blue-400 font-bold uppercase tracking-[0.2em] text-xs">Roadmap</span>
-                <h2 class="text-4xl md:text-5xl font-bold mt-4">The Future of <span class="text-blue-400">Learning</span></h2>
+            <div class="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
+                <div>
+                    <h2 class="text-5xl md:text-7xl font-extrabold tracking-tighter mb-6 italic text-gray-900">Future.</h2>
+                    <p class="text-gray-400 text-xl font-medium">Next-gen learning features coming soon.</p>
+                </div>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <!-- AI Companion -->
-                <div class="roadmap-card p-10 rounded-[40px] relative group">
-                    <div class="flex justify-between items-start mb-10">
-                        <i data-lucide="message-circle" class="w-10 h-10 text-blue-400 icon-glow-blue"></i>
-                        <span class="px-3 py-1 bg-blue-400/10 text-blue-400 text-[10px] font-bold rounded-full border border-blue-400/20">COMING SOON</span>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+                <div class="bento-card p-12 group shadow-none">
+                    <div class="mb-12 flex justify-between items-start">
+                        <div class="w-16 h-16 bg-blue-50 rounded-2xl flex items-center justify-center border border-blue-100">
+                            <i data-lucide="message-circle" class="text-blue-600 w-8 h-8"></i>
+                        </div>
+                        <span class="badge-soon uppercase">AI Chat</span>
                     </div>
-                    <h3 class="text-2xl font-bold mb-4 text-white">AI Companion Chat</h3>
-                    <p class="text-gray-500 text-sm leading-relaxed">Engage in lifelike conversations with our AI assistant to sharpen your casual interaction skills in any language.</p>
+                    <h3 class="text-2xl font-extrabold mb-6 text-gray-900">AI Tutor</h3>
+                    <p class="text-gray-500 leading-relaxed font-medium text-sm">A personal companion that learns your style and assists in perfect cultural adaptation.</p>
                 </div>
 
-                <!-- AI Speaking Coach -->
-                <div class="roadmap-card p-10 rounded-[40px] relative group">
-                    <div class="flex justify-between items-start mb-10">
-                        <i data-lucide="mic-2" class="w-10 h-10 text-rose-400 icon-glow-rose"></i>
-                        <span class="px-3 py-1 bg-rose-400/10 text-rose-400 text-[10px] font-bold rounded-full border border-rose-400/20">DEVELOPING</span>
+                <div class="bento-card p-12 group shadow-none">
+                    <div class="mb-12 flex justify-between items-start">
+                        <div class="w-16 h-16 bg-rose-50 rounded-2xl flex items-center justify-center border border-rose-100">
+                            <i data-lucide="mic-2" class="text-rose-600 w-8 h-8"></i>
+                        </div>
+                        <span class="badge-soon uppercase" style="color: #e11d48;">Oral Coach</span>
                     </div>
-                    <h3 class="text-2xl font-bold mb-4 text-white">Oral Fluency Coach</h3>
-                    <p class="text-gray-500 text-sm leading-relaxed">Real-time pronunciation feedback and pitch analysis to help you speak with the confidence of a native speaker.</p>
+                    <h3 class="text-2xl font-extrabold mb-6 text-gray-900">Oral Fluency</h3>
+                    <p class="text-gray-500 leading-relaxed font-medium text-sm">Perfect your accent with real-time feedback and pitch correction technology.</p>
                 </div>
 
-                <!-- AI Mastery -->
-                <div class="roadmap-card p-10 rounded-[40px] relative group">
-                    <div class="flex justify-between items-start mb-10">
-                        <i data-lucide="graduation-cap" class="text-emerald-400 w-10 h-10 icon-glow-emerald"></i>
-                        <span class="px-3 py-1 bg-emerald-400/10 text-emerald-400 text-[10px] font-bold rounded-full border border-emerald-400/20">PLANNING</span>
+                <div class="bento-card p-12 group shadow-none">
+                    <div class="mb-12 flex justify-between items-start">
+                        <div class="w-16 h-16 bg-emerald-50 rounded-2xl flex items-center justify-center border border-emerald-100">
+                            <i data-lucide="graduation-cap" class="text-emerald-600 w-8 h-8"></i>
+                        </div>
+                        <span class="badge-soon uppercase" style="color: #059669;">Learning</span>
                     </div>
-                    <h3 class="text-2xl font-bold mb-4 text-white">Adaptive Learning</h3>
-                    <p class="text-gray-500 text-sm leading-relaxed">A personalized curriculum that adapts to your progress, making language learning an effortless daily habit.</p>
+                    <h3 class="text-2xl font-extrabold mb-6 text-gray-900">Adaptive Mastery</h3>
+                    <p class="text-gray-500 leading-relaxed font-medium text-sm">Personalized curriculum based on your translation history for effortless mastery.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Tech & Privacy -->
-    <section id="tech" class="py-24 bg-white/5">
-        <div class="max-w-7xl mx-auto px-6 grid lg:grid-cols-3 gap-12 text-center lg:text-left">
-            <div class="space-y-4">
-                <i data-lucide="shield-check" class="text-blue-400 w-8 h-8 mx-auto lg:mx-0 icon-glow-blue"></i>
-                <h4 class="text-xl font-bold">Privacy First</h4>
-                <p class="text-gray-500 text-sm">Adhering to Apple's strict privacy standards. Your data is used for processing only and never stored or sold.</p>
-            </div>
-            <div class="space-y-4">
-                <i data-lucide="zap" class="text-blue-400 w-8 h-8 mx-auto lg:mx-0 icon-glow-blue"></i>
-                <h4 class="text-xl font-bold">Native Performance</h4>
-                <p class="text-gray-500 text-sm">Deeply optimized for iOS architecture using Metal to ensure ultra-smooth interactions and low battery drain.</p>
-            </div>
-            <div class="space-y-4">
-                <i data-lucide="cloud-off" class="text-blue-400 w-8 h-8 mx-auto lg:mx-0 icon-glow-blue"></i>
-                <h4 class="text-xl font-bold">Offline Core</h4>
-                <p class="text-gray-500 text-sm">Download offline language packs to stay connected even in remote areas without internet access.</p>
+    <!-- FAQ Section -->
+    <section class="py-32 px-6">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-4xl font-extrabold tracking-tighter mb-16 italic text-center">Questions?</h2>
+            <div class="space-y-6 text-left">
+                <div class="p-8 rounded-[32px] bg-white border border-gray-100 shadow-sm">
+                    <h4 class="text-lg font-bold mb-3">Does TranslateAI work offline?</h4>
+                    <p class="text-gray-500 text-sm font-medium">Yes, you can download offline language packs to ensure seamless translation even without an internet connection.</p>
+                </div>
+                <div class="p-8 rounded-[32px] bg-white border border-gray-100 shadow-sm">
+                    <h4 class="text-lg font-bold mb-3">Is my data private?</h4>
+                    <p class="text-gray-500 text-sm font-medium">Absolutely. We utilize Apple's Secure Enclave and end-to-end encryption. Your data is processed on-device whenever possible.</p>
+                </div>
+                <div class="p-8 rounded-[32px] bg-white border border-gray-100 shadow-sm">
+                    <h4 class="text-lg font-bold mb-3">How many languages are supported?</h4>
+                    <p class="text-gray-500 text-sm font-medium">TranslateAI currently supports 120+ languages and dialects with continuous updates to our neural models.</p>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer class="py-20 px-6 border-t border-white/5 text-center md:text-left">
-        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
-            <div class="flex items-center space-x-2">
-                <i data-lucide="languages" class="text-blue-400 w-5 h-5"></i>
-                <span class="text-lg font-bold">Translate<span class="text-blue-400">AI</span></span>
-            </div>
-            <div class="flex flex-wrap justify-center space-x-6 md:space-x-8 text-sm text-gray-500">
-                <!-- 链接更新 -->
-                <a href="https://better-translator.github.io/privacy_policy.html" target="_blank" class="hover:text-white transition">Privacy Policy</a>
-                <a href="https://better-translator.github.io/term_of_service.html" target="_blank" class="hover:text-white transition">Terms of Service</a>
-                <a href="#" class="hover:text-white transition">Support</a>
-            </div>
-            <div class="flex space-x-4">
-                <div class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center hover:bg-white/10 cursor-pointer">
-                    <i data-lucide="mail" class="w-4 h-4 text-gray-300"></i>
+    <!-- 底部下载区块 (Clean CTA Section - No QR) -->
+    <section class="py-32 px-6 text-center">
+        <div class="max-w-5xl mx-auto p-16 md:p-24 rounded-[70px] bg-gray-50 border border-gray-100 shadow-inner overflow-hidden relative">
+            <div class="absolute inset-0 opacity-[0.03] pointer-events-none">
+                <div class="grid grid-cols-6 gap-8 transform -rotate-12 scale-150">
+                    <i data-lucide="globe" class="w-20 h-20"></i><i data-lucide="languages" class="w-20 h-20"></i>
+                    <i data-lucide="zap" class="w-20 h-20"></i><i data-lucide="shield" class="w-20 h-20"></i>
+                    <i data-lucide="type" class="w-20 h-20"></i><i data-lucide="mic" class="w-20 h-20"></i>
                 </div>
             </div>
+            
+            <div class="relative z-10 max-w-2xl mx-auto">
+                <h2 class="text-5xl md:text-7xl font-extrabold mb-10 tracking-tighter leading-tight">Ready for the<br>journey?</h2>
+                <p class="text-gray-500 text-lg md:text-xl font-medium mb-12">Download TranslateAI today and experience a world without language barriers. Exclusively available on iOS.</p>
+                
+                <a href="https://apps.apple.com/us/app/chatai-ai-chat-assistant/id6449479659" target="_blank" class="btn-primary-dark inline-flex flex-col items-center justify-center px-16 py-8 rounded-[40px] shadow-2xl">
+                    <p class="text-xs uppercase font-black tracking-[0.2em] opacity-60 mb-2">Available on the</p>
+                    <p class="text-3xl font-black leading-none">App Store</p>
+                </a>
+                
+                <p class="mt-10 text-[11px] font-bold text-gray-400 uppercase tracking-widest italic">Free to download · Regular Updates</p>
+            </div>
         </div>
-        <p class="text-center mt-12 text-[10px] text-gray-600 uppercase tracking-widest">© 2025 TranslateAI. Designed with ❤️ for iOS.</p>
+    </section>
+
+    <!-- 页脚 (Footer) -->
+    <footer class="py-24 px-6 border-t border-gray-100 bg-white">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-16 text-center md:text-left">
+            <div class="col-span-1 md:col-span-2 space-y-8">
+                <div class="flex items-center gap-3 justify-center md:justify-start">
+                    <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+                        <i data-lucide="languages" class="text-white w-5 h-5"></i>
+                    </div>
+                    <span class="text-2xl font-black tracking-tighter italic text-gray-900">TranslateAI</span>
+                </div>
+                <p class="text-gray-400 max-w-sm mx-auto md:mx-0 font-semibold">Crafting elegant communication tools for the next generation of global citizens.</p>
+            </div>
+            <div>
+                <h5 class="text-[10px] font-black uppercase tracking-[0.3em] text-gray-300 mb-10">Legal</h5>
+                <ul class="space-y-5 text-sm font-bold text-gray-500">
+                    <li><a href="https://better-translator.github.io/privacy_policy.html" target="_blank" class="hover:text-black transition">Privacy Policy</a></li>
+                    <li><a href="https://better-translator.github.io/term_of_service.html" target="_blank" class="hover:text-black transition">Terms of Service</a></li>
+                </ul>
+            </div>
+            <div>
+                <h5 class="text-[10px] font-black uppercase tracking-[0.3em] text-gray-300 mb-10">Support</h5>
+                <ul class="space-y-5 text-sm font-bold text-gray-500">
+                    <li><a href="mailto:ultimate.translate@gmail.com" class="flex items-center gap-3 justify-center md:justify-start hover:text-black transition">
+                        <i data-lucide="mail" class="w-4 h-4 text-blue-600"></i> ultimate.translate@gmail.com
+                    </a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto mt-24 pt-12 border-t border-gray-50 flex flex-col md:flex-row justify-between items-center gap-8 text-center sm:text-left">
+            <p class="text-[10px] font-bold text-gray-300 uppercase tracking-[0.4em]">© 2025 TranslateAI. Designed for iOS.</p>
+            <div class="flex gap-10 grayscale opacity-20">
+                <i data-lucide="shield" class="w-6 h-6 text-black"></i>
+                <i data-lucide="heart" class="w-6 h-6 text-black"></i>
+            </div>
+        </div>
     </footer>
 
     <script>
-        // Initialize Lucide Icons
         function initIcons() {
             if (typeof lucide !== 'undefined') {
                 lucide.createIcons();
             }
         }
-
-        // Wait for page load
         if (document.readyState === 'complete') {
             initIcons();
         } else {
             window.addEventListener('load', initIcons);
         }
 
-        // Scroll Reveal Animation
+        const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.style.opacity = "1";
                     entry.target.style.transform = "translateY(0)";
+                    observer.unobserve(entry.target);
                 }
             });
-        }, { threshold: 0.1 });
+        }, observerOptions);
 
-        document.querySelectorAll('.feature-card, .roadmap-card').forEach(card => {
-            observer.observe(card);
+        document.querySelectorAll('.bento-card, #roadmap > div > div, section > h2, section > p').forEach(el => {
+            el.style.opacity = "0";
+            el.style.transform = "translateY(50px)";
+            el.style.transition = "all 1s cubic-bezier(0.19, 1, 0.22, 1)";
+            observer.observe(el);
         });
     </script>
 </body>
