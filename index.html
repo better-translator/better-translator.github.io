@@ -10,8 +10,8 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         :root {
-            --primary: #3b82f6;
-            --accent: #2563eb;
+            --primary: #007CFF;
+            --accent: #006ae0;
             --bg: #ffffff;
             --text-main: #000000;
             --text-muted: #666666;
@@ -58,15 +58,17 @@
             padding-bottom: 0.15em;
         }
 
-        .btn-primary-dark {
-            background: #000000;
+        /* 更新后的蓝色按钮样式 */
+        .btn-primary-blue {
+            background: var(--primary);
             color: #ffffff;
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 10px 30px rgba(0, 124, 255, 0.25);
         }
-        .btn-primary-dark:hover {
+        .btn-primary-blue:hover {
             transform: translateY(-4px) scale(1.02);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 20px 40px rgba(0, 124, 255, 0.35);
+            background: var(--accent);
         }
 
         /* 便当盒卡片 */
@@ -79,7 +81,7 @@
             overflow: hidden;
         }
         .bento-card:hover {
-            border-color: rgba(59, 130, 246, 0.2);
+            border-color: rgba(0, 124, 255, 0.2);
             box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.05);
             transform: translateY(-8px);
         }
@@ -106,7 +108,7 @@
             font-size: 2rem;
             text-transform: uppercase;
             letter-spacing: 0.05em;
-            opacity: 0.3; /* 提高不透明度 */
+            opacity: 0.3;
             transition: opacity 0.3s ease, transform 0.3s ease;
         }
         .marquee-item:hover {
@@ -144,9 +146,8 @@
     <nav class="fixed w-full z-50 glass-nav">
         <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
             <div class="flex items-center gap-3">
-                <div class="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/20">
-                    <i data-lucide="languages" class="text-white w-6 h-6"></i>
-                </div>
+                <!-- 更新后的 Logo 图片地址 -->
+                <img src="https://better-translator.github.io/logo.png" alt="TranslateAI Logo" class="w-10 h-10 rounded-xl shadow-lg shadow-blue-500/10 object-contain" onerror="this.src='https://placehold.co/100x100/007CFF/white?text=TAI'">
                 <span class="text-xl font-extrabold tracking-tighter">Translate<span class="text-blue-600">AI</span></span>
             </div>
             <div class="hidden md:flex gap-10 text-[11px] font-extrabold uppercase tracking-[0.2em] text-gray-400">
@@ -154,7 +155,7 @@
                 <a href="#roadmap" class="hover:text-black transition-colors">Future</a>
                 <a href="#tech" class="hover:text-black transition-colors">Privacy</a>
             </div>
-            <a href="https://apps.apple.com/us/app/chatai-ai-chat-assistant/id6449479659" target="_blank" class="btn-primary-dark px-6 py-2.5 rounded-full text-xs font-black uppercase tracking-widest">
+            <a href="https://apps.apple.com/us/app/chatai-ai-chat-assistant/id6449479659" target="_blank" class="btn-primary-blue px-6 py-2.5 rounded-full text-xs font-black uppercase tracking-widest">
                 Download
             </a>
         </div>
@@ -195,8 +196,8 @@
             </p>
             
             <div class="flex flex-col sm:flex-row justify-center items-center gap-6 mb-24">
-                <a href="https://apps.apple.com/us/app/chatai-ai-chat-assistant/id6449479659" target="_blank" class="btn-primary-dark px-14 py-6 rounded-[32px] text-center">
-                    <p class="text-[10px] uppercase font-black tracking-widest opacity-60 mb-1">App Store</p>
+                <a href="https://apps.apple.com/us/app/chatai-ai-chat-assistant/id6449479659" target="_blank" class="btn-primary-blue px-14 py-6 rounded-[32px] text-center">
+                    <p class="text-[10px] uppercase font-black tracking-widest opacity-80 mb-1">App Store</p>
                     <p class="text-2xl font-black leading-none">Free Download</p>
                 </a>
                 <div class="hidden sm:block w-px h-16 bg-gray-100"></div>
@@ -249,7 +250,7 @@
             <span class="marquee-item text-pink-500">한국어</span>
             <span class="marquee-item text-orange-600">Nederlands</span>
             <span class="marquee-item text-sky-600">Svenska</span>
-            <!-- 重复一份实现滚动 -->
+            <!-- 重复 -->
             <span class="marquee-item text-blue-600">English</span>
             <span class="marquee-item text-red-500">Español</span>
             <span class="marquee-item text-indigo-500">Français</span>
@@ -387,7 +388,7 @@
     <!-- FAQ Section -->
     <section class="py-32 px-6">
         <div class="max-w-4xl mx-auto">
-            <h2 class="text-4xl font-extrabold tracking-tighter mb-16 italic text-center">Questions?</h2>
+            <h2 class="text-4xl font-extrabold tracking-tighter mb-16 italic text-center text-gray-900">Questions?</h2>
             <div class="space-y-6 text-left">
                 <div class="p-8 rounded-[32px] bg-white border border-gray-100 shadow-sm">
                     <h4 class="text-lg font-bold mb-3">Does TranslateAI work offline?</h4>
@@ -405,7 +406,7 @@
         </div>
     </section>
 
-    <!-- 底部下载区块 (Clean CTA Section - No QR) -->
+    <!-- 底部下载区块 -->
     <section class="py-32 px-6 text-center">
         <div class="max-w-5xl mx-auto p-16 md:p-24 rounded-[70px] bg-gray-50 border border-gray-100 shadow-inner overflow-hidden relative">
             <div class="absolute inset-0 opacity-[0.03] pointer-events-none">
@@ -417,11 +418,11 @@
             </div>
             
             <div class="relative z-10 max-w-2xl mx-auto">
-                <h2 class="text-5xl md:text-7xl font-extrabold mb-10 tracking-tighter leading-tight">Ready for the<br>journey?</h2>
+                <h2 class="text-5xl md:text-7xl font-extrabold mb-10 tracking-tighter leading-tight text-gray-900">Ready for the<br>journey?</h2>
                 <p class="text-gray-500 text-lg md:text-xl font-medium mb-12">Download TranslateAI today and experience a world without language barriers. Exclusively available on iOS.</p>
                 
-                <a href="https://apps.apple.com/us/app/chatai-ai-chat-assistant/id6449479659" target="_blank" class="btn-primary-dark inline-flex flex-col items-center justify-center px-16 py-8 rounded-[40px] shadow-2xl">
-                    <p class="text-xs uppercase font-black tracking-[0.2em] opacity-60 mb-2">Available on the</p>
+                <a href="https://apps.apple.com/us/app/chatai-ai-chat-assistant/id6449479659" target="_blank" class="btn-primary-blue inline-flex flex-col items-center justify-center px-16 py-8 rounded-[40px] shadow-2xl">
+                    <p class="text-xs uppercase font-black tracking-[0.2em] opacity-80 mb-2">Available on the</p>
                     <p class="text-3xl font-black leading-none">App Store</p>
                 </a>
                 
@@ -435,9 +436,8 @@
         <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-16 text-center md:text-left">
             <div class="col-span-1 md:col-span-2 space-y-8">
                 <div class="flex items-center gap-3 justify-center md:justify-start">
-                    <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-                        <i data-lucide="languages" class="text-white w-5 h-5"></i>
-                    </div>
+                    <!-- 页脚 Logo 图片地址同步更新 -->
+                    <img src="https://better-translator.github.io/logo.png" alt="TranslateAI Logo" class="w-8 h-8 rounded-lg object-contain" onerror="this.src='https://placehold.co/80x80/007CFF/white?text=TAI'">
                     <span class="text-2xl font-black tracking-tighter italic text-gray-900">TranslateAI</span>
                 </div>
                 <p class="text-gray-400 max-w-sm mx-auto md:mx-0 font-semibold">Crafting elegant communication tools for the next generation of global citizens.</p>
@@ -445,8 +445,8 @@
             <div>
                 <h5 class="text-[10px] font-black uppercase tracking-[0.3em] text-gray-300 mb-10">Legal</h5>
                 <ul class="space-y-5 text-sm font-bold text-gray-500">
-                    <li><a href="https://better-translator.github.io/privacy_policy.html" target="_blank" class="hover:text-black transition">Privacy Policy</a></li>
-                    <li><a href="https://better-translator.github.io/term_of_service.html" target="_blank" class="hover:text-black transition">Terms of Service</a></li>
+                    <li><a href="https://better-translator.github.io/privacy_policy.html" target="_blank" class="hover:text-blue-600 transition">Privacy Policy</a></li>
+                    <li><a href="https://better-translator.github.io/term_of_service.html" target="_blank" class="hover:text-blue-600 transition">Terms of Service</a></li>
                 </ul>
             </div>
             <div>
